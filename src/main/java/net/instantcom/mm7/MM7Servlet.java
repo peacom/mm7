@@ -22,20 +22,22 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serial;
 
 public class MM7Servlet extends HttpServlet {
 
 	public static final String VASP_BEAN_ATTRIBUTE = "net.instantcom.mm7.vasp_bean";
 	public static final String VASP_ATTRIBUTE = "net.instantcom.mm7.vasp";
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	public VASP getVasp() {
@@ -87,13 +89,13 @@ public class MM7Servlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED,
 				"Only HTTP POST supported on this 3GPP MMS MM7 SOAP Endpoint");
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		try {
 			// Decode incoming SOAP message
 			InputStream in = req.getInputStream();
@@ -111,11 +113,8 @@ public class MM7Servlet extends HttpServlet {
 			// Write out SOAP message
 			resp.setContentType(mm7response.getSoapContentType());
 
-			OutputStream out = resp.getOutputStream();
-			try {
+			try (OutputStream out = resp.getOutputStream()) {
 				MM7Message.save(mm7response, out, getVasp().getContext());
-			} finally {
-				out.close();
 			}
 		} catch (MM7Error mm7error) {
 			log("MM7 request failed", mm7error);
