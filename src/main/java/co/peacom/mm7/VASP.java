@@ -18,6 +18,8 @@
 
 package co.peacom.mm7;
 
+import co.peacom.mm7.controller.MM7Servlet;
+
 /**
  * MM7 Interface implemented by Value Added Service Provider (VASP) side. You
  * will need to implement it to receive messages. Configure an

@@ -21,7 +21,7 @@ package co.peacom.mm7;
 public class SubmitSample {
 
 	public static void main(String[] args) throws Exception {
-		String url = "http://localhost:2007/mmsc/mm7/MMSServiceSOAPPort";
+		String url = "http://localhost:8081/mm7";
 
 		SubmitReq sr = new SubmitReq();
 		sr.setVaspId("xxx_vaspid");
@@ -40,6 +40,8 @@ public class SubmitSample {
 		MMSC mmsc = new BasicMMSC(url);
 		mmsc.getContext().setMm7Namespace("http://www.3gpp.org/ftp/Specs/archive/23_series/23.140/schema/REL-5-MM7-1-3");
 		mmsc.getContext().setMm7Version("5.3.0");
+		mmsc.getContext().setUsername("le");
+		mmsc.getContext().setPassword("1234");
 
 		// Send a message
 		SubmitRsp submitRsp = mmsc.submit(sr);

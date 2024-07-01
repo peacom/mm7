@@ -18,6 +18,7 @@
 
 package co.peacom.mm7;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class ContentType implements Serializable {
 	public static final ContentType IMAGE = new ContentType("image/*");
 	public static final ContentType TEXT = new ContentType("text/*");
 
+	@Serial
 	private static final long serialVersionUID = About.SERIAL_VERSION_UID;
 
 	public ContentType(ContentType mimeType) {

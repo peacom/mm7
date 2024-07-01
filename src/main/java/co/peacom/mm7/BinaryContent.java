@@ -21,6 +21,7 @@ package co.peacom.mm7;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 public class BinaryContent extends BasicContent {
 
@@ -147,7 +148,7 @@ public class BinaryContent extends BasicContent {
 			b.append("\r\nContent-Disposition: Attachment; Filename=").append(this.getContentLocation());
 		}
 		b.append("\r\n\r\n");
-		out.write(b.toString().getBytes("iso-8859-1"));
+		out.write(b.toString().getBytes(StandardCharsets.ISO_8859_1));
 		
 		if(sevenBit){
 			out.write(data);

@@ -1,23 +1,39 @@
 package co.peacom.mm7.services;
 
 import co.peacom.mm7.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import co.peacom.mm7.model.event.StatusEvent;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClient;
 
 @Component("SampleSpringVASP")
 public class SampleSpringVASP implements VASP {
-
+    @Value("${webhook.url}")
+    String webHookUrl;
     private final MM7Context context;
 
     public SampleSpringVASP(MM7Context context) {
         this.context = context;
     }
 
-    @Override
-    public DeliverRsp deliver(DeliverReq deliverReq) throws MM7Error {
-        System.out.println("deliver in VASP was called");
+    public void sendWebHook(StatusEvent event) {
+        RestClient restClient = RestClient.builder()
+                .requestFactory(new HttpComponentsClientHttpRequestFactory())
+                .build();
+        restClient.post()
+                .uri(webHookUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(event)
+                .retrieve().toBodilessEntity();
+    }
 
-        return null;
+    @Override
+    public DeliverRsp deliver(DeliverReq deliverReq) {
+        System.out.println("deliver in VASP was called: ");
+
+        return deliverReq.reply();
     }
 
     @Override
@@ -25,17 +41,22 @@ public class SampleSpringVASP implements VASP {
         return context;
     }
 
-	@Override
-	public DeliveryReportRsp deliveryReport(DeliveryReportReq deliveryReportReq) throws MM7Error {
-		System.out.println("deliveryReport in VASP was called");
+    @Override
+    public DeliveryReportRsp deliveryReport(DeliveryReportReq deliveryReportReq) {
+        System.out.println("deliveryReport in VASP was called");
+        StatusEvent statusEvent = new StatusEvent(deliveryReportReq);
+        System.out.println(statusEvent);
+        sendWebHook(statusEvent);
+        return deliveryReportReq.reply();
+    }
 
-        return null;
-	}
+    @Override
+    public ReadReplyRsp readReply(ReadReplyReq readReplyReq) {
+        System.out.println("readReplyReq in VASP was called");
+        StatusEvent statusEvent = new StatusEvent(readReplyReq);
+        System.out.println(statusEvent);
+        sendWebHook(statusEvent);
 
-	@Override
-	public ReadReplyRsp readReply(ReadReplyReq readReplyReq) throws MM7Error {
-		System.out.println("readReplyReq in VASP was called");
-		
-		return null;
-	}
+        return readReplyReq.reply();
+    }
 }

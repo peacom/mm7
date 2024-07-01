@@ -18,12 +18,17 @@
 
 package co.peacom.mm7;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  *
@@ -32,7 +37,7 @@ import java.net.URL;
  * serialization/deserialization.
  */
 public abstract class MMSCBase implements MMSC {
-
+	Logger logger = LoggerFactory.getLogger(MMSCBase.class);
 	public MMSCBase(String url) {
 		setUrl(url);
 	}
@@ -70,9 +75,10 @@ public abstract class MMSCBase implements MMSC {
 				try {
 					ByteArrayOutputStream buffer = new ByteArrayOutputStream(128);
 					OutputStream buffer64 = ctx.newBase64OutputStream(buffer);
-					buffer64.write(authString.getBytes("iso-8859-1"));
+					buffer64.write(authString.getBytes(StandardCharsets.ISO_8859_1));
 					buffer64.close();
-					conn.setRequestProperty("Authorization", "Basic " + buffer.toString("iso-8859-1"));
+					conn.setRequestProperty("Authorization", "Basic " + Base64.getEncoder().encodeToString(
+							authString.getBytes(StandardCharsets.UTF_8)));
 				} catch (IOException ioe) {
 					throw new RuntimeException("Failed to add HTTP Basic Authorization header", ioe);
 				}

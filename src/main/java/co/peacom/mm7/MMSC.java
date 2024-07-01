@@ -20,7 +20,6 @@ package co.peacom.mm7;
 
 /**
  * MM7 Interface implemented by MMSC side.
- * 
  * TODO add all the other VASP methods
  */
 public interface MMSC {

@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -103,6 +104,7 @@ public class MM7Message implements JDOMSupport {
 		Element e = (Element) body.getChildren().get(0);
 		String message = e.getName();
 
+
 		// Check if we've got a SOAP fault
 		if ("Fault".equals(message)) {
 			MM7Error mm7error = new MM7Error();
@@ -112,7 +114,7 @@ public class MM7Message implements JDOMSupport {
 
 		// Instantiate a correct message class
 		try {
-			Class<?> clazz = Class.forName("net.instantcom.mm7." + message);
+			Class<?> clazz = Class.forName("co.peacom.mm7." + message);
 			MM7Message mm7 = (MM7Message) clazz.newInstance();
 
 			// Load response
@@ -178,7 +180,7 @@ public class MM7Message implements JDOMSupport {
 
 		final XMLOutputter xo = new XMLOutputter();
 		xo.setFormat(ctx.getJdomFormat());
-		final Writer w = new OutputStreamWriter(out, "utf-8");
+		final Writer w = new OutputStreamWriter(out, StandardCharsets.UTF_8);
 
 		if (mm7.isMultipart()) {
 			final Content content = ((HasContent) mm7).getContent();
@@ -239,7 +241,7 @@ public class MM7Message implements JDOMSupport {
 		if (contentType.isMultipart()) {
 			MIMEConfig mimeConfig = new MIMEConfig();
 			MIMEMessage msg = new MIMEMessage(in, contentType.getParameter("boundary"), mimeConfig);
-			List<Content> contents = new ArrayList<Content>();
+			List<Content> contents = new ArrayList<>();
 			for (MIMEPart part : msg.getAttachments()) {
 				BasicContent content;
 				ContentType partType = new ContentType(part.getContentType());

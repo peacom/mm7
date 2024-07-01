@@ -16,13 +16,15 @@
  * file and include the License file at appropriate location.
  */
 
-package co.peacom.mm7;
+package co.peacom.mm7.controller;
 
+import co.peacom.mm7.*;
 import jakarta.servlet.annotation.WebServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,6 +54,7 @@ public class MM7Servlet extends HttpServlet {
         } else if (req instanceof ReadReplyReq) {
             resp = getVasp().readReply((ReadReplyReq) req);
         } else {
+            log(req.toString());
             throw new MM7Error("method not supported: " + req.getClass());
         }
         return resp;
@@ -94,5 +97,6 @@ public class MM7Servlet extends HttpServlet {
     }
 
     @Autowired
+    @Qualifier("SampleSpringVASP")
     public VASP vasp;
 }
