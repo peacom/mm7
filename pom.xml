@@ -8,8 +8,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>co.peacom.mm7</groupId>
-    <artifactId>demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>mm7</artifactId>
+    <version>0.0.1</version>
     <name>Peacom MM7</name>
     <description>Peacom MM7</description>
     <url>https://github.com/peacom/mm7</url>
@@ -95,6 +95,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
             </plugin>
         </plugins>
     </build>
