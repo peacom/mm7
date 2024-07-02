@@ -1,5 +1,6 @@
 package co.peacom.mm7.model;
 
+import co.peacom.mm7.MessageClass;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.URL;
@@ -21,6 +22,33 @@ public class MessageRequest {
     @NotBlank
     @URL
     private String url;
+    private MessageClass messageClass;
+    private String serviceCode;
+    private String linkedId;
+
+    public MessageClass getMessageClass() {
+        return messageClass;
+    }
+
+    public void setMessageClass(MessageClass messageClass) {
+        this.messageClass = messageClass;
+    }
+
+    public String getServiceCode() {
+        return serviceCode;
+    }
+
+    public void setServiceCode(String serviceCode) {
+        this.serviceCode = serviceCode;
+    }
+
+    public String getLinkedId() {
+        return linkedId;
+    }
+
+    public void setLinkedId(String linkedId) {
+        this.linkedId = linkedId;
+    }
 
     public String getContentType() {
         return contentType;

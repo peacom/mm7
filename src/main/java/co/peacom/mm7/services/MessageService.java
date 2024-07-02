@@ -19,8 +19,14 @@ public class MessageService {
         SubmitReq sr = new SubmitReq();
         sr.setVaspId(messageRequest.getVaspId());
         sr.setVasId(messageRequest.getVasId());
+        sr.setServiceCode(messageRequest.getServiceCode());
         sr.setSubject(messageRequest.getTitle());
-        sr.setMessageClass(MessageClass.INFORMATIONAL);
+        if (messageRequest.getMessageClass() != null) {
+            sr.setMessageClass(messageRequest.getMessageClass());
+        } else {
+            sr.setMessageClass(MessageClass.INFORMATIONAL);
+        }
+
         sr.addRecipient(new Address(messageRequest.getPhone(), Address.RecipientType.TO));
 
         BasicContent basicContent = new BasicContent(new ArrayList<>());
