@@ -7,3 +7,5 @@
 # Reference
 
 https://docs.spring.io/spring-boot/docs/1.4.0.RC1/reference/html/deployment-install.html
+
+https://sourabhbajaj.com/mac-setup/Java/sdkman.html
