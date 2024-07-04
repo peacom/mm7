@@ -1,5 +1,6 @@
 # Peacom MM7
 
+ - /lib/systemd/system
  - Folder: /usr/project/mm7
  - Configure: /usr/project/mm7/application.properties
  - Run File: /usr/project/mm7/mm7.jar

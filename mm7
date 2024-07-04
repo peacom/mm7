@@ -3,8 +3,8 @@ Description=mm7
 After=syslog.target
 
 [Service]
-User=myapp
-ExecStart=/usr/project/mm7/mm7.jar
+User=ubuntu
+ExecStart=/usr/projects/temp/mm7/build/mm7.jar
 SuccessExitStatus=143
 
 [Install]
