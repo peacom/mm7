@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(Error.class)
+    @ExceptionHandler(Throwable.class)
     public ResponseEntity<Map<String, List<String>>> handleValidationErrors(Error ex) {
         List<String> errors = List.of(ex.getMessage());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
