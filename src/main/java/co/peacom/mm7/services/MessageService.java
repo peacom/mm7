@@ -38,10 +38,14 @@ public class MessageService {
         }
 
         if (!messageRequest.getContentType().equals("text/plain") && StringUtils.hasText(messageRequest.getMediaUrl())) {
-            InputStream input = new URL(messageRequest.getMediaUrl()).openStream();
-            BinaryContent image = new BinaryContent(messageRequest.getContentType(), input);
-            image.setContentId(UUID.randomUUID().toString());
-            basicContent.getParts().add(image);
+            try {
+                InputStream input = new URL(messageRequest.getMediaUrl()).openStream();
+                BinaryContent image = new BinaryContent(messageRequest.getContentType(), input);
+                image.setContentId(UUID.randomUUID().toString());
+                basicContent.getParts().add(image);
+            } catch (IOException e) {
+                throw new MM7Error("Open url " + messageRequest.getMediaUrl() + " failed");
+            }
         }
         // Add text content
         if (basicContent.getParts().isEmpty()) {
