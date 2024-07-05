@@ -5,6 +5,8 @@
  - Configure: /usr/project/mm7/application.properties
  - Run File: /usr/project/mm7/mm7.jar
  - journalctl --follow -u mm7.service
+ - sudo systemctl daemon-reload
+ - sudo systemctl restart mm7.service
 
 # Reference
 
