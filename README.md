@@ -7,6 +7,7 @@
  - journalctl --follow -u mm7.service
  - sudo systemctl daemon-reload
  - sudo systemctl restart mm7.service
+ - sudo keytool -import -alias mm7 -file /usr/projects/ssl/peacom.crt -keystore mycerts -storepass changeit
 
 # Reference
 
