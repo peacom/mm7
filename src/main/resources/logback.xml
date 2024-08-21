@@ -101,7 +101,7 @@
         <appender-ref ref="RollingHTTPFile" />
         <appender-ref ref="Console" />
     </logger>
-    <logger name="sun.net.www.protocol.http.HttpURLConnection" level="trace" additivity="false">
+    <logger name="sun.net.www.protocol.http.HttpURLConnection" level="ALL" additivity="false">
         <appender-ref ref="RollingAPIFile" />
         <appender-ref ref="Console" />
     </logger>

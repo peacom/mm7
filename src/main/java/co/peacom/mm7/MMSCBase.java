@@ -86,6 +86,7 @@ public abstract class MMSCBase implements MMSC {
 
 			final OutputStream out = conn.getOutputStream();
 			try {
+				MM7Message.save(request, System.out, ctx);
 				MM7Message.save(request, out, ctx);
 			} finally {
 				out.flush();

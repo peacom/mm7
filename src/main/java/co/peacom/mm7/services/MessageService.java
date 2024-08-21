@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -28,13 +29,13 @@ public class MessageService {
         }
 
         sr.addRecipient(new Address(messageRequest.getPhone(), Address.RecipientType.TO));
+        List<Content> parts = new ArrayList<>();
 
-        BasicContent basicContent = new BasicContent(new ArrayList<>());
         TextContent text;
         if (StringUtils.hasText(messageRequest.getContent())) {
             text = new TextContent(messageRequest.getContent());
             text.setContentId("text");
-            basicContent.getParts().add(text);
+            parts.add(text);
         }
 
         if (!messageRequest.getContentType().equals("text/plain") && StringUtils.hasText(messageRequest.getMediaUrl())) {
@@ -42,16 +43,18 @@ public class MessageService {
                 InputStream input = new URL(messageRequest.getMediaUrl()).openStream();
                 BinaryContent image = new BinaryContent(messageRequest.getContentType(), input);
                 image.setContentId(UUID.randomUUID().toString());
-                basicContent.getParts().add(image);
+                parts.add(image);
             } catch (IOException e) {
                 throw new MM7Error("Open url " + messageRequest.getMediaUrl() + " failed");
             }
         }
         // Add text content
-        if (basicContent.getParts().isEmpty()) {
+        if (parts.size() == 0) {
             throw new Error("Invalid message, content or url required");
         }
+        BasicContent basicContent = new BasicContent(parts);
         sr.setContent(basicContent);
+
 
         // Initialize MM7 client to MMSC
         MMSC mmsc = new BasicMMSC(messageRequest.getUrl());

@@ -21,6 +21,7 @@ package co.peacom.mm7;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
+import java.nio.charset.StandardCharsets;
 
 import org.jdom2.output.Format;
 import org.jvnet.mimepull.MIMEConfig;
@@ -104,9 +105,9 @@ public class MM7Context {
 			{ // Let's try the constructor out ...
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				OutputStream s = c.newInstance(baos);
-				s.write("test123".getBytes("iso-8859-1"));
+				s.write("test123".getBytes(StandardCharsets.ISO_8859_1));
 				s.close();
-				String encoded = baos.toString("iso-8859-1");
+				String encoded = baos.toString(StandardCharsets.ISO_8859_1);
 				if (BASE64_OUTPUT_STREAM_CLASSES[0].equals(base64OutputStream.getName()) || 
 						BASE64_OUTPUT_STREAM_CLASSES[2].equals(base64OutputStream.getName()) ){
 				    // commons-codec and javax.mail with the default constructor adds a newline to test output
